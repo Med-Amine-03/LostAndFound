@@ -1,10 +1,8 @@
 package com.lostandfound.dao;
+import com.lostandfound.model.Match;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.lostandfound.config.DBConnection;
-import com.lostandfound.model.Match;
 public class MatchDAO{
     Connection connection;
     public MatchDAO(Connection connection) {
