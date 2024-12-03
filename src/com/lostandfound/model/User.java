@@ -1,6 +1,6 @@
 package com.lostandfound.model;
 
-public abstract class User{
+public abstract class User {
     private int userId;
     private String name;
     private String email;
@@ -8,15 +8,15 @@ public abstract class User{
     private String role;
     private String profileImage;
 
-
-
-    public User( String name, String email, String password, String role, String profileImage){
+    public User(String name, String email, String password, String role, String profileImage) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.role = role;
         this.profileImage = profileImage;
     }
+
+    public User() {}
 
     public int getUserId() {
         return userId;
@@ -65,9 +65,12 @@ public abstract class User{
     public void setProfileImage(String profileImage) {
         this.profileImage = profileImage;
     }
-    
 
+    public boolean isAdmin() {
+        return "Admin".equalsIgnoreCase(this.role);
+    }
 
-
-
+    public boolean isNormalUser() {
+        return "NormalUser".equalsIgnoreCase(this.role);
+    }
 }

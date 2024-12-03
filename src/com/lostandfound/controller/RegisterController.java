@@ -1,40 +1,41 @@
 package com.lostandfound.controller;
 
-import java.sql.Connection;
-
 import com.lostandfound.dao.UserDAO;
 import com.lostandfound.model.Admin;
 import com.lostandfound.model.NormalUser;
 import com.lostandfound.model.User;
-
-
+import com.lostandfound.utils.SessionManager;
 
 public class RegisterController {
-
-    private Connection connection;
     private UserDAO userDAO;
 
-    public RegisterController(Connection connection){
-        this.connection = connection;
-        this.userDAO = new UserDAO(connection);
+    public RegisterController(UserDAO userDAO) {
+        this.userDAO = userDAO;
     }
 
-    public boolean handelRegister(String name, String email, String password, String role, String profileImage){
+    public boolean handleRegister(String name, String email, String password, String role, String profileImage) {
         if (userDAO.isEmailAlreadyRegistered(email)) {
             System.out.println("This email is already registered.");
             return false;
         }
 
-        User user= null;
-        if (role.equalsIgnoreCase("Admin")) {
+        User user = null;
+        if ("Admin".equalsIgnoreCase(role)) {
             user = new Admin(name, email, password, role, profileImage);
-        }
-        else if (role.equalsIgnoreCase("NormalUser")) {
+        } else if ("NormalUser".equalsIgnoreCase(role)) {
             user = new NormalUser(name, email, password, role, profileImage);
-        }
-        else {
+        } else {
+            System.out.println("Invalid role specified.");
             return false;
         }
-        return userDAO.registerUser(user);
+
+        boolean success = userDAO.registerUser(user);
+        if (success) {
+            SessionManager.setCurrentUser(user);
+            return true;
+        } else {
+            System.out.println("Failed to register user.");
+            return false;
+        }
     }
 }

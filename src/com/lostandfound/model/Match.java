@@ -2,7 +2,7 @@ package com.lostandfound.model;
 
 import java.sql.Timestamp;
 
-public class Match{
+public class Match {
     private int matchId;
     private int lostItemId;
     private int foundItemId;
@@ -11,65 +11,97 @@ public class Match{
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
-    public enum Status{Pending,Confirmed,Rejected}
+    public enum Status {
+        Pending, Confirmed, Rejected
+    }
     private Status status;
 
-    public Match(int matchId,int lostItemId,int foundItemId,double levenshteinScore,boolean reviewedByAdmin,Timestamp createdAt, Timestamp updatedAt){
-        this.matchId = matchId;
-        this.lostItemId=lostItemId;
-        this.foundItemId=foundItemId;
-        this.levenshteinScore=levenshteinScore;
-        this.status=Status.Pending;
-        this.reviewedByAdmin=reviewedByAdmin;
-        this.createdAt=createdAt;
-        this.updatedAt=updatedAt;
+    public Match(int lostItemId, int foundItemId, double levenshteinScore) {
+        this.lostItemId = lostItemId;
+        this.foundItemId = foundItemId;
+        this.levenshteinScore = levenshteinScore;
+        this.status = Status.Pending; 
+        this.reviewedByAdmin = false; 
+        this.createdAt = new Timestamp(System.currentTimeMillis()); 
+        this.updatedAt = this.createdAt; 
     }
-    public int getFoundItemId() {
-        return foundItemId;
-    }
-    public double getLevenshteinScore() {
-        return levenshteinScore;
-    }
-    public int getLostItemId() {
-        return lostItemId;
-    }
+
     public int getMatchId() {
         return matchId;
     }
-    public boolean getReviewedByAdmin(){
-        return reviewedByAdmin;
-    }
-    public String getStatus() {
-        return status.name();
-    }
-    public Timestamp getCreatedAt() {
-        return createdAt;
-    }
-    public Timestamp getUpdatedAt() {
-        return updatedAt;
-    }
-    public void setFoundItemId(int foundItemId) {
-        this.foundItemId = foundItemId;
-    }
-    public void setLevenshteinScore(double levenshteinScore) {
-        this.levenshteinScore = levenshteinScore;
-    }
-    public void setLostItemId(int lostItemId) {
-        this.lostItemId = lostItemId;
-    }
+
     public void setMatchId(int matchId) {
         this.matchId = matchId;
     }
+
+    public int getLostItemId() {
+        return lostItemId;
+    }
+
+    public void setLostItemId(int lostItemId) {
+        this.lostItemId = lostItemId;
+    }
+
+    public int getFoundItemId() {
+        return foundItemId;
+    }
+
+    public void setFoundItemId(int foundItemId) {
+        this.foundItemId = foundItemId;
+    }
+
+    public double getLevenshteinScore() {
+        return levenshteinScore;
+    }
+
+    public void setLevenshteinScore(double levenshteinScore) {
+        this.levenshteinScore = levenshteinScore;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+        this.updatedAt = new Timestamp(System.currentTimeMillis());
+    }
+
+    public boolean getReviewedByAdmin() {
+        return reviewedByAdmin;
+    }
+
     public void setReviewedByAdmin(boolean reviewedByAdmin) {
         this.reviewedByAdmin = reviewedByAdmin;
     }
-    public void setStatus(Status status) {
-        this.status = status;
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
     }
-    public void setCreatedAt(Timestamp createdAT) {
-        this.createdAt = createdAT;
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
-    public void setUpdatedAt(Timestamp updatedAT) {
-        this.updatedAt = updatedAT;
+
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    @Override
+    public String toString() {
+        return "Match{" +
+                "matchId=" + matchId +
+                ", lostItemId=" + lostItemId +
+                ", foundItemId=" + foundItemId +
+                ", levenshteinScore=" + levenshteinScore +
+                ", status=" + status +
+                ", reviewedByAdmin=" + reviewedByAdmin +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
     }
 }
