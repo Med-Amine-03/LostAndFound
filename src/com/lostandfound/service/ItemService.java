@@ -6,39 +6,75 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class ItemService {
-    private ItemDAO itemDAO;
+    private final ItemDAO itemDAO;
 
     public ItemService(ItemDAO itemDAO) {
         this.itemDAO = itemDAO;
     }
 
-    public void createItem(Item item) throws SQLException {
-        itemDAO.createItem(item);
+    public boolean createItem(Item item) {
+        try {
+            itemDAO.createItem(item);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
-    public void updateItem(Item item) throws SQLException {
-        itemDAO.updateItem(item);
+    public List<Item> searchItems(String keyword, String location, String status, String type) {
+        try {
+            return itemDAO.searchItems(keyword, location, status, type);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    public void deleteItem(int itemId) throws SQLException {
-        itemDAO.deleteItem(itemId);
+    public List<Item> getItemsByUser(int userId) {
+        try {
+            return itemDAO.getItemsByOwnerId(userId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    public Item getItemById(int itemId) throws SQLException {
-        return itemDAO.getItemById(itemId);
+    public Item getItemById(int itemId) {
+        try {
+            return itemDAO.getItemById(itemId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    public List<Item> getItemsByOwnerId(int ownerId) throws SQLException {
-        return itemDAO.getItemsByOwnerId(ownerId);
+    public boolean updateItem(Item item) {
+        try {
+            itemDAO.updateItem(item);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
-    public void approveItem(Item item) throws SQLException {
-        item.setStatus(Item.Status.Confirmed);
-        itemDAO.updateItem(item);
+    public List<Item> getAllItems() {
+        try {
+            return itemDAO.getAllItems();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    public void rejectItem(Item item) throws SQLException {
-        item.setStatus(Item.Status.Rejected);
-        itemDAO.updateItem(item);
+    public boolean deleteItem(int itemId) {
+        try {
+            itemDAO.deleteItem(itemId);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
