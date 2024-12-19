@@ -12,7 +12,7 @@ public class Match {
     private Timestamp updatedAt;
 
     public enum Status {
-        Pending, Confirmed, Rejected
+        Pending, Confirmed, Rejected, PENDING
     }
     private Status status;
 

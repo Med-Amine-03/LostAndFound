@@ -17,7 +17,7 @@ public class Item {
         Lost, Found
     }
     public enum Status {
-        Pending, Confirmed, Rejected
+        Pending, Matched, Restored, Rejected
     }
 
     private Type type;
@@ -36,7 +36,6 @@ public class Item {
         this.type = Type.Lost;         
     }
 
-    // Getters and Setters
     public int getItemId() {
         return itemId;
     }

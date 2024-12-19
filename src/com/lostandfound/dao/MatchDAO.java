@@ -86,4 +86,28 @@ public class MatchDAO {
         }
         return matches;
     }
+
+    public Match getMatchById(int matchId) throws SQLException {
+        String sql = "SELECT * FROM matches WHERE match_id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, matchId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    Match match = new Match(
+                            resultSet.getInt("lost_item_id"),
+                            resultSet.getInt("found_item_id"),
+                            resultSet.getDouble("levenshtein_score")
+                    );
+                    match.setMatchId(resultSet.getInt("match_id"));
+                    match.setStatus(Match.Status.valueOf(resultSet.getString("status")));
+                    match.setReviewedByAdmin(resultSet.getBoolean("reviewed_by_admin"));
+                    match.setCreatedAt(resultSet.getTimestamp("created_at"));
+                    match.setUpdatedAt(resultSet.getTimestamp("updated_at"));
+                    return match;
+                }
+            }
+        }
+        return null; 
+    }
+    
 }

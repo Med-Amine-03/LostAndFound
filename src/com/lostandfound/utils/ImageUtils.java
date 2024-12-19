@@ -3,34 +3,48 @@ package com.lostandfound.utils;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 
 public class ImageUtils {
 
-    private static final String IMAGE_UPLOAD_PATH = "src/resources/imagesprofile/";
+    public static String saveProfileImage(File sourceFile) {
+        return saveImage(sourceFile, Constants.PROFILE_IMAGES_PATH);
+    }
 
-    public static boolean uploadProfileImage(File profileImage) {
-        if (!isValidImage(profileImage)) {
-            System.out.println("Invalid image format");
-            return false;
-        }
+    public static String saveItemImage(File sourceFile) {
+        return saveImage(sourceFile, Constants.ITEM_IMAGES_PATH);
+    }
 
-        String uniqueImageName = UUID.randomUUID().toString() + ".jpg"; 
-        File destination = new File(IMAGE_UPLOAD_PATH + uniqueImageName);
-
+    private static String saveImage(File sourceFile, String targetDirectory) {
         try {
-            Files.copy(profileImage.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            Path dirPath = Paths.get(targetDirectory);
+            Files.createDirectories(dirPath);
+            
+            String fileName = UUID.randomUUID().toString() + getFileExtension(sourceFile.getName());
+            Path targetPath = dirPath.resolve(fileName);
+            
+            Files.copy(sourceFile.toPath(), targetPath, StandardCopyOption.REPLACE_EXISTING);
+            
+            return fileName;
         } catch (IOException e) {
-            System.out.println("Error uploading image: " + e.getMessage());
-            return false;
+            e.printStackTrace();
+            return null;
         }
+    }
 
-        return true;
+    private static String getFileExtension(String fileName) {
+        int i = fileName.lastIndexOf('.');
+        if (i > 0) {
+            return fileName.substring(i);
+        }
+        return ".jpg";
     }
 
     public static boolean isValidImage(File file) {
-        String[] validExtensions = {".jpg", ".jpeg"};
+        String[] validExtensions = {".jpg", ".jpeg", ".png"};
         String fileName = file.getName().toLowerCase();
         for (String ext : validExtensions) {
             if (fileName.endsWith(ext)) {
