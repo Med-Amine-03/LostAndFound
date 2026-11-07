@@ -1,18 +1,33 @@
-## Getting Started
+# Lost & Found: desktop app for lost and found items
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+A Java desktop application where users declare lost or found items and the app suggests possible matches between them. An admin dashboard reviews items and matches.
 
-## Folder Structure
+## Features
 
-The workspace contains two folders by default, where:
+- **Accounts and roles:** registration and login, normal users and administrators
+- **Items:** declare a lost or found item with a description, location and photo
+- **Automatic matching:** a match score between lost and found items based on text similarity of their descriptions and locations (Levenshtein distance)
+- **Admin dashboard:** review items, matches and users
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+## Architecture
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+MVC with a DAO layer:
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+```
+view/        Swing screens (login, register, user dashboard, admin dashboard)
+controller/  Screen logic
+service/     Business rules and Levenshtein matching
+dao/         Database access (JDBC)
+model/       User, NormalUser, Admin, Item, Match
+config/      MySQL connection
+```
 
-## Dependency Management
+## Tech stack
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+Java · Swing · JDBC · MySQL
+
+## Run it
+
+1. Create a MySQL database and update the credentials in `src/com/lostandfound/config/DBConnection.java`.
+2. Add the MySQL JDBC driver to the classpath.
+3. Run `src/com/lostandfound/App.java`.
